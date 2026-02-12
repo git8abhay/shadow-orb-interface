@@ -4,6 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import api from "@/lib/axiosconfig";
 import { AnimatedBackground } from "@/components/layout/AnimatedBackground";
 import { Logo } from "@/components/layout/Logo";
+import { Eye, EyeOff, User, Briefcase, AlertTriangle, CheckCircle, KeyRound, ShieldCheck, Info, Mail, Lock, UserPlus } from "lucide-react";
 
 type AuthMode = "login" | "signup";
 type UserRole = "candidate" | "recruiter";
@@ -217,10 +218,10 @@ export default function AuthPage() {
   };
 
   const inputClass = (field: string) =>
-    `w-full px-5 py-4 bg-background border rounded-xl text-foreground placeholder:text-muted-foreground transition-all duration-300 focus:outline-none focus:bg-primary/20 hover:border-accent/30 ${
+    `w-full px-5 py-4 bg-card border rounded-xl text-foreground placeholder:text-muted-foreground transition-all duration-300 focus:outline-none focus:bg-card hover:border-accent/30 ${
       touched[field] && errors[field as keyof FormErrors]
         ? "border-destructive focus:border-destructive focus:shadow-[0_0_0_3px_hsl(var(--destructive)/0.15)]"
-        : "border-border/30 focus:border-accent focus:shadow-[0_0_0_3px_hsl(var(--accent)/0.15)]"
+        : "border-border focus:border-accent focus:shadow-[0_0_0_3px_hsl(var(--accent)/0.15)]"
     }`;
 
   return (
@@ -267,7 +268,7 @@ export default function AuthPage() {
               </div>
 
               {/* Role Selector */}
-              <div className="flex gap-4 mb-8 bg-background p-2 rounded-2xl border border-border/30">
+              <div className="flex gap-4 mb-8 bg-background p-2 rounded-2xl border border-border">
                 <button
                   onClick={() => handleRoleChange("candidate")}
                   className={`flex-1 flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-semibold text-base transition-all duration-300 ${
@@ -276,7 +277,7 @@ export default function AuthPage() {
                       : "text-muted-foreground hover:text-foreground hover:bg-accent/5"
                   }`}
                 >
-                  <span className="text-xl">👤</span>
+                  <User className="w-5 h-5" />
                   Candidate
                 </button>
                 <button
@@ -287,7 +288,7 @@ export default function AuthPage() {
                       : "text-muted-foreground hover:text-foreground hover:bg-accent/5"
                   }`}
                 >
-                  <span className="text-xl">💼</span>
+                  <Briefcase className="w-5 h-5" />
                   Recruiter
                 </button>
               </div>
@@ -302,7 +303,9 @@ export default function AuthPage() {
 
                   <form onSubmit={handleSubmit} noValidate>
                     <div className="mb-6">
-                      <label className="block text-muted-foreground text-sm font-semibold mb-3">Email</label>
+                      <label className="flex items-center gap-2 text-muted-foreground text-sm font-semibold mb-3">
+                        <Mail className="w-4 h-4" /> Email
+                      </label>
                       <input
                         type="email"
                         name="email"
@@ -313,12 +316,16 @@ export default function AuthPage() {
                         className={inputClass("email")}
                       />
                       {touched.email && errors.email && (
-                        <p className="mt-2 text-sm text-destructive flex items-center gap-1">⚠️ {errors.email}</p>
+                        <p className="mt-2 text-sm text-destructive flex items-center gap-1">
+                          <AlertTriangle className="w-3.5 h-3.5" /> {errors.email}
+                        </p>
                       )}
                     </div>
 
                     <div className="mb-6">
-                      <label className="block text-muted-foreground text-sm font-semibold mb-3">Password</label>
+                      <label className="flex items-center gap-2 text-muted-foreground text-sm font-semibold mb-3">
+                        <Lock className="w-4 h-4" /> Password
+                      </label>
                       <div className="relative">
                         <input
                           type={showPassword.login ? "text" : "password"}
@@ -332,20 +339,22 @@ export default function AuthPage() {
                         <button
                           type="button"
                           onClick={() => togglePassword("login")}
-                          className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-accent transition-all duration-300 text-xl hover:scale-110"
+                          className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-accent transition-all duration-300"
                         >
-                          {showPassword.login ? "🙈" : "👁️"}
+                          {showPassword.login ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                         </button>
                       </div>
                       {touched.password && errors.password && (
-                        <p className="mt-2 text-sm text-destructive flex items-center gap-1">⚠️ {errors.password}</p>
+                        <p className="mt-2 text-sm text-destructive flex items-center gap-1">
+                          <AlertTriangle className="w-3.5 h-3.5" /> {errors.password}
+                        </p>
                       )}
                     </div>
 
                     <div className="flex justify-between items-center mb-6">
                       <label className="flex items-center gap-3 cursor-pointer group">
                         <input type="checkbox" name="rememberMe" checked={formData.rememberMe} onChange={handleInputChange} className="peer sr-only" />
-                        <div className="relative w-5 h-5 bg-background border border-border/30 rounded-md transition-all duration-300 peer-checked:bg-gradient-to-br peer-checked:from-accent peer-checked:to-destructive peer-checked:border-accent group-hover:border-accent" />
+                        <div className="relative w-5 h-5 bg-card border border-border rounded-md transition-all duration-300 peer-checked:bg-gradient-to-br peer-checked:from-accent peer-checked:to-destructive peer-checked:border-accent group-hover:border-accent" />
                         <span className="text-muted-foreground text-sm">Remember me</span>
                       </label>
                       <a href="#" className="text-accent text-sm hover:text-destructive transition-colors duration-300">
@@ -385,7 +394,9 @@ export default function AuthPage() {
 
                   <form onSubmit={handleSubmit} noValidate>
                     <div className="mb-6">
-                      <label className="block text-muted-foreground text-sm font-semibold mb-3">Full Name</label>
+                      <label className="flex items-center gap-2 text-muted-foreground text-sm font-semibold mb-3">
+                        <UserPlus className="w-4 h-4" /> Full Name
+                      </label>
                       <input
                         type="text"
                         name="fullName"
@@ -396,12 +407,16 @@ export default function AuthPage() {
                         className={inputClass("fullName")}
                       />
                       {touched.fullName && errors.fullName && (
-                        <p className="mt-2 text-sm text-destructive flex items-center gap-1">⚠️ {errors.fullName}</p>
+                        <p className="mt-2 text-sm text-destructive flex items-center gap-1">
+                          <AlertTriangle className="w-3.5 h-3.5" /> {errors.fullName}
+                        </p>
                       )}
                     </div>
 
                     <div className="mb-6">
-                      <label className="block text-muted-foreground text-sm font-semibold mb-3">Email</label>
+                      <label className="flex items-center gap-2 text-muted-foreground text-sm font-semibold mb-3">
+                        <Mail className="w-4 h-4" /> Email
+                      </label>
                       <input
                         type="email"
                         name="email"
@@ -412,19 +427,23 @@ export default function AuthPage() {
                         className={inputClass("email")}
                       />
                       {touched.email && errors.email && (
-                        <p className="mt-2 text-sm text-destructive flex items-center gap-1">⚠️ {errors.email}</p>
+                        <p className="mt-2 text-sm text-destructive flex items-center gap-1">
+                          <AlertTriangle className="w-3.5 h-3.5" /> {errors.email}
+                        </p>
                       )}
                       {touched.email && !errors.email && formData.email && validateEmail(formData.email) && (
-                        <p className="mt-2 text-sm text-green-500 flex items-center gap-1">✓ Email is valid</p>
+                        <p className="mt-2 text-sm text-green-500 flex items-center gap-1">
+                          <CheckCircle className="w-3.5 h-3.5" /> Email is valid
+                        </p>
                       )}
                     </div>
 
                     {userRole === "recruiter" && (
                       <div className="mb-6">
                         <label className="flex items-center justify-between text-muted-foreground text-sm font-semibold mb-3">
-                          <span>Secret Recruiter Access Key</span>
-                          <span className="w-[18px] h-[18px] rounded-full bg-accent/15 flex items-center justify-center text-xs cursor-help hover:bg-accent hover:text-accent-foreground transition-all duration-300" title="This key verifies you are an authorized recruiter">
-                            ⓘ
+                          <span className="flex items-center gap-2"><KeyRound className="w-4 h-4" /> Secret Access Key</span>
+                          <span className="w-[18px] h-[18px] rounded-full bg-accent/15 flex items-center justify-center cursor-help hover:bg-accent hover:text-accent-foreground transition-all duration-300" title="This key verifies you are an authorized recruiter">
+                            <Info className="w-3 h-3" />
                           </span>
                         </label>
                         <div className="relative">
@@ -437,20 +456,24 @@ export default function AuthPage() {
                             placeholder="Enter your access key"
                             className={`${inputClass("accessKey")} pr-12`}
                           />
-                          <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xl">🔑</span>
+                          <KeyRound className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                         </div>
                         {touched.accessKey && errors.accessKey && (
-                          <p className="mt-2 text-sm text-destructive flex items-center gap-1">⚠️ {errors.accessKey}</p>
+                          <p className="mt-2 text-sm text-destructive flex items-center gap-1">
+                            <AlertTriangle className="w-3.5 h-3.5" /> {errors.accessKey}
+                          </p>
                         )}
                         <div className="flex items-center gap-2 mt-3 px-4 py-2 bg-accent/10 border border-accent rounded-lg text-sm text-accent">
-                          <span className="text-base">🛡️</span>
+                          <ShieldCheck className="w-4 h-4 flex-shrink-0" />
                           <span>Verified Recruiter Authorization Required</span>
                         </div>
                       </div>
                     )}
 
                     <div className="mb-6">
-                      <label className="block text-muted-foreground text-sm font-semibold mb-3">Password</label>
+                      <label className="flex items-center gap-2 text-muted-foreground text-sm font-semibold mb-3">
+                        <Lock className="w-4 h-4" /> Password
+                      </label>
                       <div className="relative">
                         <input
                           type={showPassword.signup ? "text" : "password"}
@@ -461,12 +484,14 @@ export default function AuthPage() {
                           placeholder="Create a strong password"
                           className={`${inputClass("password")} pr-12`}
                         />
-                        <button type="button" onClick={() => togglePassword("signup")} className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-accent transition-all duration-300 text-xl hover:scale-110">
-                          {showPassword.signup ? "🙈" : "👁️"}
+                        <button type="button" onClick={() => togglePassword("signup")} className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-accent transition-all duration-300">
+                          {showPassword.signup ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                         </button>
                       </div>
                       {touched.password && errors.password && (
-                        <p className="mt-2 text-sm text-destructive flex items-center gap-1">⚠️ {errors.password}</p>
+                        <p className="mt-2 text-sm text-destructive flex items-center gap-1">
+                          <AlertTriangle className="w-3.5 h-3.5" /> {errors.password}
+                        </p>
                       )}
                       <div className="flex gap-2 mt-2">
                         {[...Array(4)].map((_, i) => (
@@ -486,7 +511,9 @@ export default function AuthPage() {
                     </div>
 
                     <div className="mb-6">
-                      <label className="block text-muted-foreground text-sm font-semibold mb-3">Confirm Password</label>
+                      <label className="flex items-center gap-2 text-muted-foreground text-sm font-semibold mb-3">
+                        <Lock className="w-4 h-4" /> Confirm Password
+                      </label>
                       <div className="relative">
                         <input
                           type={showPassword.confirm ? "text" : "password"}
@@ -497,15 +524,19 @@ export default function AuthPage() {
                           placeholder="Re-enter your password"
                           className={`${inputClass("confirmPassword")} pr-12`}
                         />
-                        <button type="button" onClick={() => togglePassword("confirm")} className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-accent transition-all duration-300 text-xl hover:scale-110">
-                          {showPassword.confirm ? "🙈" : "👁️"}
+                        <button type="button" onClick={() => togglePassword("confirm")} className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-accent transition-all duration-300">
+                          {showPassword.confirm ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                         </button>
                       </div>
                       {touched.confirmPassword && errors.confirmPassword && (
-                        <p className="mt-2 text-sm text-destructive flex items-center gap-1">⚠️ {errors.confirmPassword}</p>
+                        <p className="mt-2 text-sm text-destructive flex items-center gap-1">
+                          <AlertTriangle className="w-3.5 h-3.5" /> {errors.confirmPassword}
+                        </p>
                       )}
                       {touched.confirmPassword && !errors.confirmPassword && formData.confirmPassword && formData.password === formData.confirmPassword && (
-                        <p className="mt-2 text-sm text-green-500 flex items-center gap-1">✓ Passwords match</p>
+                        <p className="mt-2 text-sm text-green-500 flex items-center gap-1">
+                          <CheckCircle className="w-3.5 h-3.5" /> Passwords match
+                        </p>
                       )}
                     </div>
 
@@ -539,10 +570,10 @@ export default function AuthPage() {
       {showSuccess && (
         <div className="fixed inset-0 bg-background/95 backdrop-blur-lg z-50 flex items-center justify-center animate-fade-in">
           <div className="text-center animate-scale-in">
-            <div className="w-[100px] h-[100px] mx-auto mb-8 rounded-full bg-gradient-to-br from-accent to-destructive flex items-center justify-center text-[50px] shadow-[0_10px_40px_hsl(var(--accent)/0.6)] pulse-glow">
-              ✓
+            <div className="w-[100px] h-[100px] mx-auto mb-8 rounded-full bg-gradient-to-br from-accent to-destructive flex items-center justify-center shadow-[0_10px_40px_hsl(var(--accent)/0.6)] pulse-glow">
+              <CheckCircle className="w-12 h-12 text-accent-foreground" />
             </div>
-            <h2 className="font-display text-3xl font-bold mb-4">
+            <h2 className="font-display text-3xl font-bold mb-4 text-foreground">
               {authMode === "login" ? "Welcome Back!" : "Account Created!"}
             </h2>
             <p className="text-muted-foreground mb-8">
