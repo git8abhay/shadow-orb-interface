@@ -1027,7 +1027,7 @@ Built with ❤️ by Abhay Chauhan
 
 ## 📞 Support & Contact
 
-- **Issues**: [GitHub Issues](https://github.com/yashapex/Shadow/issues)
+- **Issues**: [GitHub Issues](https://github.com/git8abhay/shadow-AI-hiring)
 - **Email**: abhay120529@gmail.com
 
 ---
