@@ -1,0 +1,66 @@
+server:
+  address: 0.0.0.0
+  port: ${PORT:8080}
+spring:
+  application:
+    name: shadow-assistant
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 50MB
+      max-request-size: 50MB
+  ai:
+    openai:
+      api-key: ${AI_API_KEY}
+      audio:
+        transcription:
+          model: whisper-1
+      chat:
+        model: gpt-4o-mini
+        temperature: 0.4
+      embedding:
+        options:
+          model: text-embedding-3-small
+    vectorstore:
+      pgvector:
+        index-type: HNSW
+        dimension: 1536
+        distance-type: COSINE_DISTANCE
+        initialize-schema: true
+    chat:
+      memory:
+        repository:
+          jdbc:
+            initialize-schema: always
+            table-name: chat_memory
+  datasource:
+    url: jdbc:postgresql://${PGHOST_PRIVATE}:${PGPORT_PRIVATE}/${PGDATABASE}
+    
+    # ⚡ EXPLICITLY SET CREDENTIALS
+    username: ${PGUSER}
+    password: ${PGPASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format-sql: true
+
+logging:
+  level:
+    org.springframework.ai:
+      chat.client: DEBUG
+
+jwt:
+  secret-key: ${JWT_SECRET}
+
+# Custom App Config
+app:
+  recruiter-secret: ${RECRUITER_SECRET} # Uses env var, or defaults to hardcoded if missing
+  cors:
+    allowed-origins: ${FRONTEND_URL} # Connects to your React app
+
